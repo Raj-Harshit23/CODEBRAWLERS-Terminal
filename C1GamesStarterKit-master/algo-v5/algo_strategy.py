@@ -7,9 +7,15 @@ import json
 
 
 ## changes
+
+"""
+main priorities,
+defend middle, and also attack with higher amounts when defense done
+"""
 """
 at start:
 first less turrets, preferably in corners, and upgrade them, walls in middle initially
+defend corners
 
 then:
 fill walls with turrets
@@ -18,6 +24,15 @@ make 4 supports(confirm it's use)
 
 then after virtuous cycle, increase support counts
 then just increase attack units
+
+parametrize on how many units to send for attack, preferably make conditions on enemy defenses
+
+attack from middle
+"""
+
+"""
+one more idea, just do defense, block all positions, and use interceptors for defense
+then win through algo time
 """
 
 """
