@@ -25,6 +25,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         seed = random.randrange(maxsize)
         random.seed(seed)
         gamelib.debug_write('Random seed: {}'.format(seed))
+        self.attack_count = 0
 
     def on_game_start(self, config):
         """ 
@@ -64,42 +65,24 @@ class AlgoStrategy(gamelib.AlgoCore):
 
         game_state.submit_turn()
 
-    def alternation(self, priority):
-        new_priority = []
-        left, right = 0, len(priority) - 1
-        
-        while left <= right:
-            new_priority.append(priority[left])
-            if left != right:
-                new_priority.append(priority[right])
-            left += 1
-            right -= 1
-
-        return new_priority
-
 
     def newalgo(self,game_state):
         # for defence 
         # all the locations(row_wise) to put defense structure
-        corners = [[0, 13], [1, 12], [2, 11], [3, 10], [4, 9], [5, 8], [22, 8], [23, 9], [24, 10], [25, 11], [26, 12], [27, 13]]
-        rows1 = self.alternation([[13, 3], [14, 3]])
-        rows2 = self.alternation([[12, 4], [13, 4], [14, 4], [15, 4]])
-        rows3 = self.alternation([[11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5]])
-        rows4 = self.alternation([[10, 6], [11, 6], [12, 6], [13, 6], [14, 6], [15, 6], [16, 6], [17, 6]])
-        rows5 = self.alternation([[9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7], [15, 7], [16, 7], [17, 7], [18, 7]])
-        rows6 = self.alternation([[8, 8], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [15, 8], [16, 8], [17, 8], [18, 8], [19, 8]])
-        rows7 = self.alternation([[7, 9], [8, 9], [9, 9], [10, 9], [11, 9], [12, 9], [13, 9], [14, 9], [15, 9], [16, 9], [17, 9], [18, 9], [19, 9], [20, 9]])
-        rows8 = self.alternation([[6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [16, 10], [17, 10], [18, 10], [19, 10], [20, 10], [21, 10]])
-        rows9 = self.alternation([[5, 11], [6, 11], [7, 11], [8, 11], [9, 11], [10, 11], [11, 11], [12, 11], [13, 11], [14, 11], [15, 11], [16, 11], [17, 11], [18, 11], [19, 11], [20, 11], [21, 11], [22, 11]])
-        rows10 = self.alternation([[4, 12], [5, 12], [6, 12], [7, 12], [8, 12], [9, 12], [10, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [17, 12], [18, 12], [19, 12], [20, 12], [21, 12], [22, 12], [23, 12]])
-        rows11 = self.alternation([[3, 13], [4, 13], [5, 13], [6, 13], [7, 13], [8, 13], [9, 13], [10, 13], [11, 13], [12, 13], [13, 13], [14, 13], [15, 13], [16, 13], [17, 13], [18, 13], [19, 13], [20, 13], [21, 13], [22, 13], [23, 13], [24, 13]])
-        rows = [rows1, rows2, rows3, rows4, rows5, rows6, rows7, rows8, rows9, rows10, rows11]
-
-
-        # new_priority1 = [[0, 13], [3, 10], [1, 12], [4, 12], [7, 12], [10, 12], [13, 12], [16, 12], [19, 12], [22, 12], [25, 12], [24, 10], [27, 13]]
-        # alternated_new_modified1 = self.alternation(new_priority1)
-        # alternated_new_modified2 = self.alternation([[5, 11], [8, 11], [11, 11], [14, 11], [17, 11], [20, 11], [23, 11], [25, 11]])
-
+        corner1 = [[0, 13], [1, 12], [2, 11], [3, 10], [4, 9]]
+        corner2 = [[27, 13], [26, 12], [25, 11], [24, 12], [23, 10]]
+        rows1 = [[13, 3], [14, 3]]
+        rows2 = [[12, 4], [13, 4], [14, 4], [15, 4]]
+        rows3 = [[11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5]]
+        rows4 = [[10, 6], [11, 6], [12, 6], [13, 6], [14, 6], [15, 6], [16, 6], [17, 6]]
+        rows5 = [[9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7], [15, 7], [16, 7], [17, 7], [18, 7]]
+        rows6 = [[8, 8], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [15, 8], [16, 8], [17, 8], [18, 8], [19, 8]]
+        rows7 = [[7, 9], [8, 9], [9, 9], [10, 9], [11, 9], [12, 9], [13, 9], [14, 9], [15, 9], [16, 9], [17, 9], [18, 9], [19, 9], [20, 9]]
+        rows8 = [[6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [16, 10], [17, 10], [18, 10], [19, 10], [20, 10], [21, 10]]
+        rows9 = [[5, 11], [6, 11], [7, 11], [8, 11], [9, 11], [10, 11], [11, 11], [12, 11], [13, 11], [14, 11], [15, 11], [16, 11], [17, 11], [18, 11], [19, 11], [20, 11], [21, 11], [22, 11]]
+        rows10 = [[4, 12], [5, 12], [6, 12], [7, 12], [8, 12], [9, 12], [10, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [17, 12], [18, 12], [19, 12], [20, 12], [21, 12], [22, 12], [23, 12]]
+        rows11 = [[3, 13], [4, 13], [5, 13], [6, 13], [7, 13], [8, 13], [9, 13], [10, 13], [11, 13], [12, 13], [13, 13], [14, 13], [15, 13], [16, 13], [17, 13], [18, 13], [19, 13], [20, 13], [21, 13], [22, 13], [23, 13], [24, 13]]
+        rows = [rows1, rows2, rows3, rows4, rows5, rows6, rows7, rows8, rows9, rows10, rows11, corner1, corner2]
 
         ## idea is place in each level, if they are maintained successfully, upgrade them
         ## also need to defend corner, so place turrets at corners, but will add this feature in version 2
@@ -108,47 +91,38 @@ class AlgoStrategy(gamelib.AlgoCore):
         ## then upgrade support, then add corners.
 
         # priorities to put turrets at different rows
-
-
-        turret_front_lines = [7]
-        # turret_middle_lines = [8, 7, 6, 5]
+        turret_front_lines = [9]
+        turret_corners = [11, 12]
+        turret_middle_lines = [8, 7, 6, 5]
         turret_back_lines = [4, 3]
         wall_locations = [10]
+        priority1 = [[1, 12], [26, 12], [4, 12], [6, 12], [8, 12], [10, 12], [12, 12], [14, 12], [16, 12], [18, 12], [20, 12],[22, 12], [23, 12]]
 
-        support_locations = [1, 2] ## rows reserved for supports
+        support_locations = [[13, 2], [14, 2], [12, 3], [15, 3]] ## rows reserved for supports
 
         gamelib.debug_write("spawning stationary units on defense lines and upgrading based on priorities")
 
-        place1=[[0,12],[1,12],[26,12],[27,12]]
-        # now in the row we will place alternately
-        place2=[[3,11],[5,11],[7,11],[9,11],[11,11],[17,11],[19,11],[21,11],[23,11],[25,11]]
-        # now in the row that is 12 above we will place alternately...in self.alternation prioriryt
-        place3=self.alternation([[2,12],[4,12],[6,12],[8,12],[10,12],[12,12],[14,12],[16,12],[18,12],[20,12],[22,12],[24,12]])
 
-        if game_state.turn_number <= 3:
-            game_state.attempt_spawn(TURRET, place1)
-            game_state.attempt_spawn(TURRET, place2)
-            game_state.attempt_spawn(TURRET, place3)
-
-        for index in support_locations:
-            game_state.attempt_spawn(SUPPORT, rows[index])
-
-
+        if game_state.turn_number == 0:
+            game_state.attempt_spawn(TURRET, priority1)
+        for index in turret_corners:
+            game_state.attempt_spawn(TURRET, rows[index])
         for index in turret_front_lines:
             game_state.attempt_spawn(TURRET, rows[index])
-        
-        
-        game_state.attempt_spawn(TURRET, self.alternation(corners))
-        
-        game_state.attempt_spawn(TURRET, self.alternation(corners))
 
+        for index in turret_corners:
+            game_state.attempt_upgrade(rows[index])
+        game_state.attempt_spawn(SUPPORT, support_locations)
+        game_state.attempt_upgrade(support_locations)
+        
 
+        
 
         for index in turret_front_lines:
             game_state.attempt_upgrade(rows[index])
 
-        for index in support_locations:
-            game_state.attempt_upgrade(rows[index])
+        # for index in support_locations:
+        #     game_state.attempt_upgrade(rows[index])
 
         for index in wall_locations:
             game_state.attempt_spawn(WALL, rows[index])
@@ -156,14 +130,11 @@ class AlgoStrategy(gamelib.AlgoCore):
         for index in wall_locations:
             game_state.attempt_upgrade(rows[index])
 
-        game_state.attempt_upgrade(place1)
-        game_state.attempt_upgrade(place2)
+        for index in turret_middle_lines:
+            game_state.attempt_spawn(TURRET, rows[index])
 
-        # for index in turret_middle_lines:
-        #     game_state.attempt_spawn(TURRET, rows[index])
-
-        # for index in turret_middle_lines:
-        #     game_state.attempt_upgrade(rows[index])
+        for index in turret_middle_lines:
+            game_state.attempt_upgrade(rows[index])
 
         for index in turret_back_lines:
             game_state.attempt_spawn(TURRET, rows[index])
@@ -177,14 +148,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         ## for attack, check the current mobile resources, if they are greater than some threshold, like 30-40
         ## then deploy the demolishers at bottom, and then with remaining resources, deploy interceptor
 
-        attack_positions = [[13, 0], [14, 0]]
-
-        if game_state.get_resource(MP) >= 15:
+        if game_state.get_resource(MP) >= 10:
+            self.attack_count += 1
             gamelib.debug_write('Enough resources, now spawn the army')
-            attack_position = random.choice(attack_positions)
+            game_state.attempt_spawn(SCOUT, [13, 0], 1000)
             game_state.attempt_spawn(DEMOLISHER, [13, 0], 1000)
-            game_state.attempt_spawn(SCOUT, [13, 0], 1000)
-            game_state.attempt_spawn(SCOUT, [13, 0], 1000)
+            game_state.attempt_spawn(INTERCEPTOR, [13, 0], 1000)
+
+
+
 
 
     """
