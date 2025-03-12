@@ -69,8 +69,8 @@ class AlgoStrategy(gamelib.AlgoCore):
     def newalgo(self,game_state):
         # for defence 
         # all the locations(row_wise) to put defense structure
-        corner1 = [[0, 13], [1, 12], [2, 11], [3, 10], [4, 9]]
-        corner2 = [[27, 13], [26, 12], [25, 11], [24, 12], [23, 10]]
+        corner1 = [[0, 13], [1, 12], [2, 11]]
+        corner2 = [[27, 13], [26, 12], [25, 11]]
         rows1 = [[13, 3], [14, 3]]
         rows2 = [[12, 4], [13, 4], [14, 4], [15, 4]]
         rows3 = [[11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5]]
@@ -109,14 +109,12 @@ class AlgoStrategy(gamelib.AlgoCore):
             game_state.attempt_spawn(TURRET, rows[index])
         for index in turret_front_lines:
             game_state.attempt_spawn(TURRET, rows[index])
-
-        for index in turret_corners:
-            game_state.attempt_upgrade(rows[index])
         game_state.attempt_spawn(SUPPORT, support_locations)
         game_state.attempt_upgrade(support_locations)
         
 
-        
+        # for index in turret_corners:
+            # game_state.attempt_upgrade(rows[index])
 
         for index in turret_front_lines:
             game_state.attempt_upgrade(rows[index])
