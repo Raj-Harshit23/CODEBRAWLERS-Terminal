@@ -6,6 +6,20 @@ from sys import maxsize
 import json
 
 
+## changes
+"""
+at start:
+first less turrets, preferably in corners, and upgrade them, walls in middle initially
+
+then:
+fill walls with turrets
+maintain corners, increase it's length
+make 4 supports(confirm it's use)
+
+then after virtuous cycle, increase support counts
+then just increase attack units
+"""
+
 """
 Most of the algo code you write will be in this file unless you create new
 modules yourself. Start by modifying the 'on_turn' function.

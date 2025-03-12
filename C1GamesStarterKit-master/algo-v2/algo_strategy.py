@@ -121,7 +121,6 @@ class AlgoStrategy(gamelib.AlgoCore):
 
         if game_state.turn_number <= 3:
             game_state.attempt_spawn(TURRET, alternated_new_modified1)
-            game_state.attempt_spawn(TURRET, alternated_new_modified2)
 
         for index in support_locations:
             game_state.attempt_spawn(SUPPORT, rows[index])
@@ -133,11 +132,6 @@ class AlgoStrategy(gamelib.AlgoCore):
         
         game_state.attempt_spawn(TURRET, self.alternation(corners))
         
-        
-
-        
-        game_state.attempt_spawn(TURRET, self.alternation(corners))
-
 
 
         for index in turret_front_lines:
@@ -151,6 +145,9 @@ class AlgoStrategy(gamelib.AlgoCore):
 
         for index in wall_locations:
             game_state.attempt_upgrade(rows[index])
+
+        game_state.attempt_spawn(TURRET, alternated_new_modified2)
+
 
         game_state.attempt_upgrade(alternated_new_modified1)
         game_state.attempt_upgrade(alternated_new_modified2)
