@@ -6,39 +6,6 @@ from sys import maxsize
 import json
 
 
-## changes
-
-"""
-main priorities,
-defend middle, and also attack with higher amounts when defense done
-"""
-"""
-at start:
-first less turrets, preferably in corners, and upgrade them, walls in middle initially
-defend corners
-
-then:
-fill walls with turrets
-maintain corners, increase it's length
-make 4 supports(confirm it's use)
-
-then after virtuous cycle, increase support counts
-then just increase attack units
-
-parametrize on how many units to send for attack, preferably make conditions on enemy defenses
-
-attack from middle
-
-for attack, remove some turrets using lru and use them to build enough supports, to strenghten attack, after defense is built sufficiently
-we can have larger attacks, since defense is expected to grow virtuously.
-"""
-
-"""
-one more idea, just do defense, block all positions, and use interceptors for defense
-then win through algo time
-"""
-
-
 """
 Most of the algo code you write will be in this file unless you create new
 modules yourself. Start by modifying the 'on_turn' function.
@@ -102,8 +69,8 @@ class AlgoStrategy(gamelib.AlgoCore):
     def newalgo(self,game_state):
         # for defence 
         # all the locations(row_wise) to put defense structure
-        corner1 = [[0, 13], [1, 12], [2, 11], [3, 10], [4, 9]]
-        corner2 = [[27, 13], [26, 12], [25, 11], [24, 12], [23, 10]]
+        corner1 = [[0, 13], [1, 12], [2, 11], [3, 12], [4, 13]]
+        corner2 = [[27, 13], [26, 12], [25, 11], [24, 10], [23, 9]]
         rows1 = [[13, 3], [14, 3]]
         rows2 = [[12, 4], [13, 4], [14, 4], [15, 4]]
         rows3 = [[11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5]]
@@ -133,10 +100,6 @@ class AlgoStrategy(gamelib.AlgoCore):
 
         support_locations = [[13, 2], [14, 2], [12, 3], [15, 3]] ## rows reserved for supports
 
-        corners_to_update = [[0, 13], [1, 12], [27, 13], [26, 12]]
-
-        initial_walls_to_put = []
-
         gamelib.debug_write("spawning stationary units on defense lines and upgrading based on priorities")
 
 
@@ -144,18 +107,14 @@ class AlgoStrategy(gamelib.AlgoCore):
             game_state.attempt_spawn(TURRET, priority1)
         for index in turret_corners:
             game_state.attempt_spawn(TURRET, rows[index])
-        if game_state.turn_number <= 10:
-            game_state.attempt_upgrade(corners_to_update)
         for index in turret_front_lines:
             game_state.attempt_spawn(TURRET, rows[index])
-
-        for index in turret_corners:
-            game_state.attempt_upgrade(rows[index])
         game_state.attempt_spawn(SUPPORT, support_locations)
         game_state.attempt_upgrade(support_locations)
         
 
-        
+        # for index in turret_corners:
+            # game_state.attempt_upgrade(rows[index])
 
         for index in turret_front_lines:
             game_state.attempt_upgrade(rows[index])
@@ -187,7 +146,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         ## for attack, check the current mobile resources, if they are greater than some threshold, like 30-40
         ## then deploy the demolishers at bottom, and then with remaining resources, deploy interceptor
 
-        if game_state.get_resource(MP) >= 10:
+        if game_state.get_resource(MP) >= 10: ## 8 for algo-v7, 6 for algo-v8
             self.attack_count += 1
             gamelib.debug_write('Enough resources, now spawn the army')
             game_state.attempt_spawn(SCOUT, [13, 0], 1000)
