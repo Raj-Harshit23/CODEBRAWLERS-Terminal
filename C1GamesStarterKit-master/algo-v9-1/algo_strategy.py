@@ -108,32 +108,12 @@ class AlgoStrategy(gamelib.AlgoCore):
         right_turrets1 = [[22,11],[21,11],[20,11],[19,11],[18,11],[17,11],[16,11],[15,11],[14,11],[13,11]]
         right_turrets2 = [[22,12],[21,12],[20,12],[19,12],[18,12],[17,12],[16,12],[15,12],[14,12],[13,12]]
 
-        v_turret = [[4,9],[8,5],[22,11],[10,5],[12,7],[14,9]]
+        v_turret = [[4,9],[6,7],[8,5],[22,11],[20,11],[18,11],[16,11],[10,5],[12,7],[14,9]]
 
         # if game_state.turn_number <= 2:
             # attempt to spawn and upgrade turrets at corners both
         game_state.attempt_spawn(TURRET, corner3)
-        game_state.attempt_spawn(SUPPORT, support_locations)
-        game_state.attempt_spawn(TURRET, [[7,7],[8,8]])
-        game_state.attempt_spawn(TURRET, [[17,8],[19,8]])
-        game_state.attempt_upgrade(support_locations)
-        game_state.attempt_upgrade([[17,8],[19,8]])
-        game_state.attempt_spawn(TURRET, v_turret)
         game_state.attempt_spawn(TURRET, corner4)
-
-
-        if game_state.get_resource(MP) >= 8: ## 8 for algo-v7, 6 for algo-v8
-            if (game_state.turn_number%2==0):
-                self.attack_count += 1
-                gamelib.debug_write('Enough resources, now spawn the army')
-                game_state.attempt_spawn(SCOUT, [14, 0], 10)
-                game_state.attempt_spawn(DEMOLISHER, [14, 0], 1)           
-                game_state.attempt_spawn(SCOUT, [14, 0], 10)
-            else:
-                game_state.attempt_spawn(SCOUT, [13, 0], 10)
-                game_state.attempt_spawn(DEMOLISHER, [13, 0], 1)           
-                game_state.attempt_spawn(SCOUT, [13, 0], 10)
-        
         # game_state.attempt_upgrade(corner3[2])
         # game_state.attempt_upgrade(corner4[2])
         # game_state.attempt_spawn(TURRET, [[4,11],[4,12]])
@@ -149,10 +129,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         # game_state.attempt_spawn(SUPPORT, support_locations)
         # game_state.attempt_upgrade(support_locations)
 
-        
-        game_state.attempt_upgrade([[7,7],[8,8]])
-        game_state.attempt_upgrade(v_turret)
+        game_state.attempt_spawn(SUPPORT, support_locations2)
 
+        game_state.attempt_spawn(TURRET, v_turret)
+
+        for i in range(100):
+            if (i%2==0):
+                game_state.attempt_upgrade(v_turret)
+            else:
+                game_state.attempt_upgrade(support_locations2)
 
         
 
@@ -179,17 +164,17 @@ class AlgoStrategy(gamelib.AlgoCore):
         # game_state.attempt_upgrade(right_turrets2)
 
 
-        # if game_state.get_resource(MP) >= 10: ## 8 for algo-v7, 6 for algo-v8
-        #     if (game_state.turn_number%2==0):
-        #         self.attack_count += 1
-        #         gamelib.debug_write('Enough resources, now spawn the army')
-        #         game_state.attempt_spawn(SCOUT, [14, 0], 10)
-        #         game_state.attempt_spawn(DEMOLISHER, [14, 0], 1)           
-        #         game_state.attempt_spawn(SCOUT, [14, 0], 1000)
-        #     else:
-        #         game_state.attempt_spawn(SCOUT, [13, 0], 10)
-        #         game_state.attempt_spawn(DEMOLISHER, [13, 0], 1)           
-        #         game_state.attempt_spawn(SCOUT, [13, 0], 1000)
+        if game_state.get_resource(MP) >= 10: ## 8 for algo-v7, 6 for algo-v8
+            if (game_state.turn_number%2==0):
+                self.attack_count += 1
+                gamelib.debug_write('Enough resources, now spawn the army')
+                game_state.attempt_spawn(SCOUT, [14, 0], 10)
+                game_state.attempt_spawn(DEMOLISHER, [14, 0], 1)           
+                game_state.attempt_spawn(SCOUT, [14, 0], 1000)
+            else:
+                game_state.attempt_spawn(SCOUT, [13, 0], 10)
+                game_state.attempt_spawn(DEMOLISHER, [13, 0], 1)           
+                game_state.attempt_spawn(SCOUT, [13, 0], 1000)
 
 
 
