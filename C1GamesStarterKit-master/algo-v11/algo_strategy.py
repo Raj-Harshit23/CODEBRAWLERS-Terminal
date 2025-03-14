@@ -114,15 +114,18 @@ class AlgoStrategy(gamelib.AlgoCore):
             # attempt to spawn and upgrade turrets at corners both
         game_state.attempt_spawn(TURRET, corner3)
         game_state.attempt_spawn(SUPPORT, support_locations)
+        game_state.attempt_spawn(TURRET, corner4)
+
         game_state.attempt_spawn(TURRET, [[7,7],[8,8]])
         game_state.attempt_spawn(TURRET, [[17,8],[19,8]])
+        game_state.attempt_upgrade([3,12])
+        game_state.attempt_upgrade([24,12])
         game_state.attempt_upgrade(support_locations)
         game_state.attempt_upgrade([[17,8],[19,8]])
         game_state.attempt_spawn(TURRET, v_turret)
-        game_state.attempt_spawn(TURRET, corner4)
 
 
-        if game_state.get_resource(MP) >= 8: ## 8 for algo-v7, 6 for algo-v8
+        if game_state.get_resource(MP) >= 6: ## 8 for algo-v7, 6 for algo-v8
             if (game_state.turn_number%2==0):
                 self.attack_count += 1
                 gamelib.debug_write('Enough resources, now spawn the army')
@@ -138,8 +141,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         # game_state.attempt_upgrade(corner4[2])
         # game_state.attempt_spawn(TURRET, [[4,11],[4,12]])
         # game_state.attempt_spawn(TURRET, [[23,11],[23,12]])
-        game_state.attempt_upgrade([3,12])
-        game_state.attempt_upgrade([24,12])
+        
         # if game_state.turn_number == 0:
         #     game_state.attempt_spawn(TURRET, priority1)
         # for index in turret_corners:
