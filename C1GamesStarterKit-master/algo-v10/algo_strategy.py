@@ -122,7 +122,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state.attempt_spawn(TURRET, corner4)
 
 
-        if game_state.get_resource(MP) >= 8: ## 8 for algo-v7, 6 for algo-v8
+        if game_state.get_resource(MP) >= 5: ## 8 for algo-v7, 6 for algo-v8
             if (game_state.turn_number%2==0):
                 self.attack_count += 1
                 gamelib.debug_write('Enough resources, now spawn the army')
